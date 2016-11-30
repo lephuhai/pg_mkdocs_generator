@@ -4,6 +4,8 @@
 
 "use strict";
 
+let config = require('../config/config.json');
+
 /**
  *
  * @param tbl_comment: Dach sách các bảng có comment
@@ -13,7 +15,8 @@
  */
 function mkdocs(tbl_comment, table_name, columns) {
 
-    let column_content = '';
+    let column_content = '',
+        result = '';
 
     for (let i = 0; i < columns.length; i++) {
         column_content += '\n' + '* `' + columns[i].column_name + '` - ' + columns[i].column_comment;
@@ -21,13 +24,23 @@ function mkdocs(tbl_comment, table_name, columns) {
 
     if (tbl_comment[table_name]) {
         // If table exist comment
-        return `## ${table_name}\n
+        result = `## ${table_name}\n
     ${tbl_comment[table_name]}
 ${column_content}\n`;
+
     } else {
-        return `## ${table_name}${column_content}\n`;
+        result = `## ${table_name}${column_content}\n`;
     }
 
+
+    if (config.split) {
+        let fs = require('fs'),
+            path = require('path');
+
+        fs.writeFileSync(path.resolve(__dirname, '..') + `/docs/${table_name}.md`, result, {mode: 0x1b6});
+    }
+
+    return result;
 }
 
 

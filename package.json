@@ -1,6 +1,6 @@
 {
   "name": "pg_mkdocs_generator",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "Postgres document generator from tables name and columns to Mkdocs",
   "main": "app.js",
   "directories": {
