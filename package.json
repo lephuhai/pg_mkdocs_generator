@@ -1,0 +1,28 @@
+{
+  "name": "pg_mkdocs_generator",
+  "version": "1.0.0",
+  "description": "Postgres document generator from tables name and columns to Mkdocs",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@vietworm/pg_mkdocs_generator"
+  },
+  "keywords": [
+    "document",
+    "postgres",
+    "mkdocs"
+  ],
+  "author": "Vietworm <lephuhai0511@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "chalk": "^1.1.3",
+    "pg": "^6.1.0"
+  }
+}
