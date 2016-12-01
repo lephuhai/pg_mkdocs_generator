@@ -92,7 +92,7 @@ function findColumnsAttribute(client, catalog, table_name, schema_name, tableHas
 
                 t.rows.forEach((i) => {
                     if (_object.columns[i.field]) {
-                        _object.columns['_' + i.field] = {
+                        _object.columns[' ' + i.field] = {
                             data_type: i.type,
                             comment: i.comment,
                             not_null: i.notnull,

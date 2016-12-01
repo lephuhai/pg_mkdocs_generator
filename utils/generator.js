@@ -66,7 +66,14 @@ Tên cột      | Kiểu dữ liệu  | Not null    | key       | ckey 		 | def	
 
             if (columns.length) {
                 for (let i = 0; i < columns.length; i++) {
-                    draw_table += `${columns[i]} | ${t.columns[columns[i]].data_type || ''} | ${t.columns[columns[i]].not_null}| ${t.columns[columns[i]].key} | ${t.columns[columns[i]].ckey} | ${t.columns[columns[i]].def} | ${t.columns[columns[i]].comment}\n`;
+
+                    let pk = t.columns[columns[i]].key;
+                    pk = pk ? '![PK](img/pk_v1.png)' : '';
+
+                    let fk = t.columns[columns[i]].ckey;
+                    fk = fk ? '![FK](img/fk_v1.png)' : '';
+
+                    draw_table += pk + fk + `${columns[i]} | ${t.columns[columns[i]].data_type || ''} | ${t.columns[columns[i]].not_null}| ${t.columns[columns[i]].key} | ${t.columns[columns[i]].ckey} | ${t.columns[columns[i]].def} | ${t.columns[columns[i]].comment}\n`;
                 }
             }
             content += `${draw_title} ${draw_table}\n\n`;
