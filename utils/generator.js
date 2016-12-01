@@ -56,7 +56,7 @@ function v2_mkdocs(model_schema) {
 
         data.map((t) => {
             draw_title = `## ${Object.keys(t.tableName)[0]}\n
-    ${t.tableName[Object.keys(t.tableName)[0]]}\n`;
+    ${t.tableName[Object.keys(t.tableName)[0]] || ''}\n`;
 
             let draw_table = `
 Tên cột      | Kiểu dữ liệu  | Not null    | key       | ckey 		 | def		 | comment
@@ -76,8 +76,6 @@ Tên cột      | Kiểu dữ liệu  | Not null    | key       | ckey 		 | def	
             path = require('path');
         fs.writeFileSync(path.resolve(__dirname, '..') + `/docs/${file_name}.md`, `${content}`, {mode: 0x1b6});
     });
-
-    process.exit(0);
 
 }
 

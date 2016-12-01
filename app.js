@@ -7,7 +7,6 @@
 let pg = require('pg'),
     db = require('./config/database'),
     config = require('./config/config.json'),
-    script = require('./scripts/query'),
     generator = require('./utils/generator'),
     chalk = require('chalk'),
     fs = require('fs'),
@@ -36,6 +35,9 @@ pool.connect((err, client, done) => {
                         query.findTableBySchema(client, s).then((tables) => {
                             let actions = Promise.map(tables, (t) => {
                                 return new Promise(r => {
+
+                                    console.log(chalk.white.bgRed.bold('\n    create table: ', t) + chalk.green.bold(" OK!"), '\n');
+
                                     r(query.findColumnsAttribute(client, db.postgres.database, t, s, tableHasComment))
                                 })
                             });
@@ -53,6 +55,30 @@ pool.connect((err, client, done) => {
 
             Promise.all(root).then(function (results) {
                 generator.v2_mkdocs(results);
+
+                let fs = require('fs');
+
+                // Rename file to index.md
+                fs.renameSync(__dirname + '/docs/public.md', __dirname + '/docs/index.md');
+
+                fs.writeFileSync('./mkdocs.yml', `site_name: ${config.site_name}\ntheme: ${config.theme}`);
+                spawn('mkdocs', ['build']);
+
+                setTimeout(() => {
+                    if (config.theme == 'readthedocs') {
+                        fs.unlinkSync(__dirname + '/site/css/theme.css');
+                        require('fs-extra').copySync(__dirname + '/utils/readthedocs_theme.css', __dirname + '/site/css/theme.css');
+                    }
+
+                    console.log(chalk.green(
+                        '\nAll runs OK ' +
+                        chalk.blue.underline.bold('./site/') +
+                        ' document created successfully!\n'
+                    ));
+
+                    done();
+                    process.exit(0);
+                }, 500);
             })
         });
 
