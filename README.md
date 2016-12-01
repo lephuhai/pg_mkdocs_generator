@@ -27,4 +27,4 @@ Postgres document generator from tables name and columns to Mkdocs
 > Tiếp theo, truy cập vào địa chỉ: [http://localhost:1331](http://localhost:1331)
 
 
-[![asciicast](https://asciinema.org/a/eoporinjfh2pyc57yslg0trlu.png)](https://asciinema.org/a/eoporinjfh2pyc57yslg0trlu?autoplay=1)
+[![asciicast](https://s15.postimg.org/wkidcvrgb/social.png)](https://asciinema.org/a/eoporinjfh2pyc57yslg0trlu?autoplay=1)
