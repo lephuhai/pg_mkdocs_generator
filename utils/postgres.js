@@ -77,9 +77,51 @@ function findAllColumnAndComment(client, catalog, table_name, schema_name, table
     })
 }
 
+function findColumnsAttribute(client, catalog, table_name, schema_name, tableHasComment) {
+    return new Promise((resolve, reject) => {
+
+        client.query(script.findColumnsAttribute, [catalog, schema_name, table_name], (err, t) => {
+            if (err) {
+                reject(Error(err));
+            } else {
+                let _object = {};
+
+                _object.tableName = {};
+                _object.tableName[table_name] = tableHasComment[table_name] || null;
+                _object.columns = {};
+
+                t.rows.forEach((i) => {
+                    if (_object.columns[i.field]) {
+                        _object.columns['_' + i.field] = {
+                            data_type: i.type,
+                            comment: i.comment,
+                            not_null: i.notnull,
+                            key: i.key,
+                            ckey: i.ckey,
+                            def: i.def
+                        }
+                    } else {
+                        _object.columns[i.field] = {
+                            data_type: i.type,
+                            comment: i.comment,
+                            not_null: i.notnull,
+                            key: i.key,
+                            ckey: i.ckey,
+                            def: i.def
+                        }
+                    }
+                });
+                resolve(_object);
+            }
+        })
+    })
+
+}
+
 module.exports = {
     findAllSchema,
     findTableBySchema,
     findTableHasCommentBySchema,
-    findAllColumnAndComment
+    findAllColumnAndComment,
+    findColumnsAttribute
 };

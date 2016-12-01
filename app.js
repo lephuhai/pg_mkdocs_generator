@@ -36,7 +36,7 @@ pool.connect((err, client, done) => {
                         query.findTableBySchema(client, s).then((tables) => {
                             let actions = Promise.map(tables, (t) => {
                                 return new Promise(r => {
-                                    r(query.findAllColumnAndComment(client, db.postgres.database, t, s, tableHasComment))
+                                    r(query.findColumnsAttribute(client, db.postgres.database, t, s, tableHasComment))
                                 })
                             });
 
@@ -52,7 +52,7 @@ pool.connect((err, client, done) => {
             });
 
             Promise.all(root).then(function (results) {
-                console.log(JSON.stringify(results, null, 4));
+                generator.v2_mkdocs(results);
             })
         });
 
