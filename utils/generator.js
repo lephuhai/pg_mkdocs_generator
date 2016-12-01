@@ -43,7 +43,44 @@ ${column_content}\n`;
     return result;
 }
 
+function v2_mkdocs(model_schema) {
+
+    let draw_title = '';
+
+
+    model_schema.map((s) => {
+        let file_name = s.schema;
+        let data = s.data;
+
+        let content = '';
+
+        data.map((t) => {
+            draw_title = `## ${Object.keys(t.tableName)[0]}\n
+    ${t.tableName[Object.keys(t.tableName)[0]] || ''}\n`;
+
+            let draw_table = `
+Tên cột      | Kiểu dữ liệu  | Not null    | key       | ckey 		 | def		 | comment
+------------ | ------------- | ----------- | --------- | ----------- | --------- | ---------
+`;
+            let columns = Object.keys(t.columns);
+
+            if (columns.length) {
+                for (let i = 0; i < columns.length; i++) {
+                    draw_table += `${columns[i]} | ${t.columns[columns[i]].data_type || ''} | ${t.columns[columns[i]].not_null}| ${t.columns[columns[i]].key} | ${t.columns[columns[i]].ckey} | ${t.columns[columns[i]].def} | ${t.columns[columns[i]].comment}\n`;
+                }
+            }
+            content += `${draw_title} ${draw_table}\n\n`;
+        });
+
+        let fs = require('fs'),
+            path = require('path');
+        fs.writeFileSync(path.resolve(__dirname, '..') + `/docs/${file_name}.md`, `${content}`, {mode: 0x1b6});
+    });
+
+}
+
 
 module.exports = {
-    mkdocs
+    mkdocs,
+    v2_mkdocs
 };
