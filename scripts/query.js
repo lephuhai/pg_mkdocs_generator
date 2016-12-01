@@ -55,7 +55,7 @@ WHERE
     (SELECT col_description(pg_attribute.attrelid, 
             pg_attribute.attnum)) AS comment, 
     CASE pg_attribute.attnotnull 
-        WHEN false THEN 1  ELSE 0  
+        WHEN false THEN FALSE ELSE TRUE
     END AS "notnull", 
     pg_constraint.conname AS "key", pc2.conname AS ckey, 
     (SELECT pg_attrdef.adsrc FROM pg_attrdef 
