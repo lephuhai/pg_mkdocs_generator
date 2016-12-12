@@ -6,6 +6,22 @@
 
 let script = require('../scripts/query');
 
+function findForeignKeyFromPK(client, TreeSQL) {
+    return new Promise((resolve, reject) => {
+        client.query(script.findForeignKeyFromPK, TreeSQL, (err, result) => {
+            if (err) {
+                reject(Error(err));
+            } else {
+                let arr = [];
+                result.rows.forEach(function(t) {
+                    arr.push(t.table_name);
+                });
+                resolve(arr);
+            }
+        })
+    })
+}
+
 function findAllSchema(client) {
     return new Promise((resolve, reject) => {
         client.query(script.schema_list, (err, s) => {
@@ -123,5 +139,6 @@ module.exports = {
     findTableBySchema,
     findTableHasCommentBySchema,
     findAllColumnAndComment,
-    findColumnsAttribute
+    findColumnsAttribute,
+    findForeignKeyFromPK
 };
